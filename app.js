@@ -2,7 +2,7 @@ require('dotenv').config();
 
 const express = require('express');
 const mongoose = require('mongoose');
-// const cors = require('cors');
+const cors = require('cors');
 const helmet = require('helmet');
 
 const { errors } = require('celebrate');
@@ -19,12 +19,8 @@ const { PORT = 3000, NODE_ENV, MONGO_DB } = process.env;
 
 mongoose.connect(NODE_ENV === 'production' ? MONGO_DB : 'mongoURL');
 
-// // cors
-// app.use(
-//   cors({
-//     origin: [''],
-//   })
-// );
+// cors
+app.use(cors());
 
 // хелмет от уязвимостей
 app.use(helmet());
