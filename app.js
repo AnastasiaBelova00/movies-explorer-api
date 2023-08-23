@@ -15,7 +15,7 @@ const { requestLogger, errorLogger } = require('./middlewares/logger');
 const app = express();
 app.use(express.json());
 
-const { PORT = 3000, NODE_ENV, MONGO_DB } = process.env;
+const { PORT = 4000, NODE_ENV, MONGO_DB } = process.env;
 
 mongoose.connect(NODE_ENV === 'production' ? MONGO_DB : 'mongoURL');
 
