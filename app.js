@@ -7,7 +7,7 @@ const helmet = require('helmet');
 
 const { errors } = require('celebrate');
 
-const route = require('./routes/route');
+const route = require('./routes');
 
 const centralError = require('./middlewares/centralError');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
@@ -15,9 +15,9 @@ const { requestLogger, errorLogger } = require('./middlewares/logger');
 const app = express();
 app.use(express.json());
 
-const { PORT = 3000 } = process.env;
+const { PORT = 3000, NODE_ENV, MONGO_DB } = process.env;
 
-mongoose.connect('mongodb://127.0.0.1:27017/bitfilmsdb');
+mongoose.connect(NODE_ENV === 'production' ? MONGO_DB : 'mongoURL');
 
 // // cors
 // app.use(
