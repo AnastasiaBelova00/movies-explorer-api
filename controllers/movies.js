@@ -20,7 +20,7 @@ module.exports.createMovie = (req, res, next) => {
     year,
     description,
     image,
-    trailer,
+    trailerLink,
     thumbnail,
     movieId,
     nameRU,
@@ -34,7 +34,7 @@ module.exports.createMovie = (req, res, next) => {
     year,
     description,
     image,
-    trailer,
+    trailerLink,
     thumbnail,
     movieId,
     nameRU,
@@ -55,10 +55,10 @@ module.exports.deleteMovieById = (req, res, next) => {
   Movie.findById(req.params.movieId)
     .then((movie) => {
       if (!movie) {
-        return next(new NotFoundError('Такой карточки не существует'));
+        return next(new NotFoundError('Такого фильма не существует'));
       }
       if (String(movie.owner) !== String(req.user._id)) {
-        return next(new ForbiddenError('Нельзя удалить чужую карточку'));
+        return next(new ForbiddenError('Нельзя удалить чужой фильм'));
       }
       return Movie.findByIdAndRemove(req.params.movieId).then(() => res.status(200).send(movie));
     })
