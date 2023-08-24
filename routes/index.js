@@ -22,7 +22,7 @@ router.use('/users', auth, userRoute);
 router.use('/movies', auth, movieRoute);
 
 // если неверный маршрут
-router.use('*', (req, res, next) => {
+router.use('*', auth, (req, res, next) => {
   next(new NotFoundError('Такая страница не найдена'));
 });
 

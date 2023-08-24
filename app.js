@@ -9,6 +9,7 @@ const { errors } = require('celebrate');
 
 const route = require('./routes');
 
+const limiter = require('./middlewares/rateLimit');
 const centralError = require('./middlewares/centralError');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 
@@ -17,13 +18,18 @@ app.use(express.json());
 
 const { PORT = 4000, NODE_ENV, MONGO_DB } = process.env;
 
-mongoose.connect(NODE_ENV === 'production' ? MONGO_DB : 'mongoURL');
+mongoose.connect(
+  NODE_ENV === 'production' ? MONGO_DB : 'mongodb://127.0.0.1:27017/bitfilmsdb'
+);
 
 // cors
 app.use(cors());
 
 // хелмет от уязвимостей
 app.use(helmet());
+
+// лимит запросов
+app.use(limiter);
 
 // логгер запросов
 app.use(requestLogger);

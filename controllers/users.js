@@ -13,16 +13,20 @@ module.exports.createUser = (req, res, next) => {
   const { email, password, name } = req.body;
   bcrypt
     .hash(password, 10)
-    .then((hash) => User.create({
-      email,
-      password: hash,
-      name,
-    }))
-    .then((user) => res.status(201).send({
-      _id: user._id,
-      email: user.email,
-      name: user.name,
-    }))
+    .then((hash) =>
+      User.create({
+        email,
+        password: hash,
+        name,
+      })
+    )
+    .then((user) =>
+      res.status(201).send({
+        _id: user._id,
+        email: user.email,
+        name: user.name,
+      })
+    )
     .catch((err) => {
       if (err.name === 'ValidationError') {
         return next(new BadRequestError('Переданы невалидные данные'));
@@ -52,6 +56,11 @@ module.exports.updateUserProfile = (req, res, next) => {
       }
       if (err.name === 'DocumentNotFoundError') {
         return next(new NotFoundError('Такого пользователя не существует'));
+      }
+      if (err.code === 11000) {
+        return next(
+          new ConflictError('Пользователь с таким email уже есть в базе')
+        );
       }
       return next(err);
     });
