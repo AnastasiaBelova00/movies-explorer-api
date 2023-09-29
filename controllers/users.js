@@ -10,13 +10,13 @@ const { NODE_ENV, JWT_SECRET } = process.env;
 
 // создание пользователя
 module.exports.createUser = (req, res, next) => {
-  const { email, password, name } = req.body;
+  const { name, email, password } = req.body;
   bcrypt
     .hash(password, 10)
     .then((hash) => User.create({
+      name,
       email,
       password: hash,
-      name,
     }))
     .then((user) => res.status(201).send({
       _id: user._id,
