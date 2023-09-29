@@ -23,11 +23,7 @@ mongoose.connect(
 );
 
 // cors
-app.use(
-  cors({
-    origin: ['https://nastasya.nomoredomainsicu.ru'],
-  })
-);
+app.options('*', cors());
 
 // хелмет от уязвимостей
 app.use(helmet());
