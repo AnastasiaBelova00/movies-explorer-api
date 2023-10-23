@@ -7,7 +7,7 @@ const helmet = require('helmet');
 
 const { errors } = require('celebrate');
 
-const route = require('./routes');
+const router = require('./routes/index');
 
 const limiter = require('./middlewares/rateLimit');
 const centralError = require('./middlewares/centralError');
@@ -16,14 +16,14 @@ const { requestLogger, errorLogger } = require('./middlewares/logger');
 const app = express();
 app.use(express.json());
 
-const { PORT = 4000, NODE_ENV, MONGO_DB } = process.env;
+const { PORT = 3000, NODE_ENV, MONGO_DB } = process.env;
 
 mongoose.connect(
   NODE_ENV === 'production' ? MONGO_DB : 'mongodb://127.0.0.1:27017/bitfilmsdb'
 );
 
 // cors
-app.options('*', cors());
+app.use(cors());
 
 // хелмет от уязвимостей
 app.use(helmet());
@@ -35,7 +35,7 @@ app.use(limiter);
 app.use(requestLogger);
 
 // подключение роутов
-app.use(route);
+app.use(router);
 
 // логгер ошибок
 app.use(errorLogger);

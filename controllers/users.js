@@ -25,7 +25,9 @@ module.exports.createUser = (req, res, next) => {
     }))
     .catch((err) => {
       if (err.name === 'ValidationError') {
-        return next(new BadRequestError('Переданы невалидные данные'));
+        return next(
+          new BadRequestError('При регистрации пользователя произошла ошибка')
+        );
       }
       if (err.code === 11000) {
         return next(
@@ -48,7 +50,9 @@ module.exports.updateUserProfile = (req, res, next) => {
     .then((user) => res.status(200).send(user))
     .catch((err) => {
       if (err.name === 'ValidationError') {
-        return next(new BadRequestError('Переданы невалидные данные'));
+        return next(
+          new BadRequestError('При обновлении профиля произошла ошибка')
+        );
       }
       if (err.name === 'DocumentNotFoundError') {
         return next(new NotFoundError('Такого пользователя не существует'));
