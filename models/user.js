@@ -5,6 +5,12 @@ const UnauthorizedError = require('../errors/UnauthorizedError');
 
 const userSchema = new mongoose.Schema(
   {
+    name: {
+      type: String,
+      required: [true, 'Поле должно быть заполнено'],
+      minlength: [2, 'Минимальная длина поля "name" - 2'],
+      maxlength: [30, 'Максимальная длина поля "name" - 30'],
+    },
     email: {
       type: String,
       required: [true, 'Поле должно быть заполнено'],
@@ -18,12 +24,6 @@ const userSchema = new mongoose.Schema(
       type: String,
       required: [true, 'Поле должно быть заполнено'],
       select: false,
-    },
-    name: {
-      type: String,
-      required: false,
-      minlength: [2, 'Минимальная длина поля "name" - 2'],
-      maxlength: [30, 'Максимальная длина поля "name" - 30'],
     },
   },
   { versionKey: false }
